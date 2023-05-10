@@ -46,13 +46,15 @@ document.addEventListener('pointerup', () => {
 window.addEventListener('load', (event) => {
   const modelViewer = document.querySelector('model-viewer');
 
-  // Dispatch synthetic click event
-  const click = new MouseEvent('click', {
-    view: window,
-    bubbles: true,
-    cancelable: true
-  });
-  modelViewer.dispatchEvent(click);
+  // Dispatch synthetic click event after a delay
+  setTimeout(() => {
+    const click = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+    modelViewer.dispatchEvent(click);
+  }, 1000); // adjust delay as needed
 
   // Start the rotation
   rotate();
