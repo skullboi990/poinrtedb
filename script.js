@@ -11,9 +11,6 @@ const onProgress = (event) => {
   }
 };
 
-const modelViewer = document.querySelector('model-viewer');
-modelViewer.addEventListener('progress', onProgress);
-
 // Start the rotation
 let direction = 0.1; // change this value to adjust rotation speed
 let angle = 0;
@@ -31,7 +28,9 @@ function rotate() {
   } else if (angle < -50) {
     direction = 0.1;
   }
-  modelViewer.setAttribute('camera-orbit', `${angle}deg 75deg auto`);
+  modelViewers.forEach(modelViewer => {
+    modelViewer.setAttribute('camera-orbit', `${angle}deg 75deg auto`);
+  });
   requestAnimationFrame(rotate);
 }
 
@@ -44,17 +43,20 @@ document.addEventListener('pointerup', () => {
 });
 
 window.addEventListener('load', (event) => {
-  const modelViewer = document.querySelector('model-viewer');
+  const modelViewers = document.querySelectorAll('model-viewer');
+  
+  modelViewers.forEach(modelViewer => {
+    // Attach the progress event listener
+    modelViewer.addEventListener('progress', onProgress);
 
-  // Dispatch synthetic click event after a delay
-  setTimeout(() => {
+    // Dispatch synthetic click event
     const click = new MouseEvent('click', {
       view: window,
       bubbles: true,
       cancelable: true
     });
     modelViewer.dispatchEvent(click);
-  }, 1000); // adjust delay as needed
+  });
 
   // Start the rotation
   rotate();
