@@ -28,9 +28,13 @@ function rotate() {
   } else if (angle < -50) {
     direction = 0.1;
   }
+
+  // Get all model-viewer elements and set their camera-orbit attribute
+  const modelViewers = document.querySelectorAll('model-viewer');
   modelViewers.forEach(modelViewer => {
     modelViewer.setAttribute('camera-orbit', `${angle}deg 75deg auto`);
   });
+
   requestAnimationFrame(rotate);
 }
 
